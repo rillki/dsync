@@ -1,0 +1,11 @@
+{
+	"authors": [
+		"rillki"
+	],
+	"copyright": "Copyright © 2024, rillki",
+	"description": "Syncing files accross directories and devices.",
+	"license": "MIT",
+	"name": "dsync",
+	"targetType": "executable",
+	"targetPath": "bin"
+}
