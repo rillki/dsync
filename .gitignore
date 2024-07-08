@@ -1,3 +1,7 @@
+# custom
+bin/
+lib/
+
 # Compiled Object files
 *.o
 *.obj
