@@ -1,9 +1,10 @@
 module common;
 
 // std
-import std.stdio : write, writef;
-import std.array : array;
 import std.file : dirEntries, SpanMode, DirEntry;
+import std.array : array;
+import std.stdio : write, writef;
+import std.algorithm : map;
 
 // definitions
 enum PROJECT_NAME = "dsync";
@@ -63,8 +64,8 @@ void dsyncLogf(string header = PROJECT_NAME, Args...)(in string format, Args arg
  +   mode = inspection span mode
  + Returns: an array of file names with absolute path
  +/
-DirEntry[] listdir(in string dir, in SpanMode mode = SpanMode.depth) 
+string[] listdir(in string dir, in SpanMode mode = SpanMode.depth) 
 {
-    return dirEntries(dir, mode).array;
+    return dirEntries(dir, mode).map!(a => a.name).array;
 }
 
