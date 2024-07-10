@@ -1,10 +1,12 @@
 module app;
 
 // std
-import std.getopt : getopt, defaultGetoptPrinter;
+import std.file : exists;
+import std.getopt : getopt, defaultGetoptPrinter, config;
 
 // dsync
 import common;
+import sync;
 
 void main(string[] args)
 {
@@ -25,8 +27,8 @@ void main(string[] args)
     {
         auto argInfo = getopt(
             args,
-            "src|s", "source directory", &opt_src,
-            "dst|d", "destination directory", &opt_dst,
+            config.required, "src|s", "source directory", &opt_src,
+            config.required, "dst|d", "destination directory", &opt_dst,
             "method|m", "sync method", &opt_sync_method,
             "verbose|v", "verbose output", &opt_verbose,
         );
@@ -39,11 +41,24 @@ void main(string[] args)
             return;
         }
 
+        // validate options
+        if (!exists(opt_src))
+        {
+            dsyncLogf("Source directory <%s> does not exist!\n", opt_src);
+            return;
+        }
+        if (!exists(opt_dst))
+        {
+            dsyncLogf("Destination directory <%s> does not exist!\n", opt_dst);
+            return;
+        }
+
         // synchronize
         with (DSyncMethod)
         final switch (opt_sync_method)
         {
             case target:
+                dsyncTarget(opt_src, opt_dst, opt_verbose);
                 break;
             case dual:
             case full:
@@ -55,3 +70,4 @@ void main(string[] args)
         dsyncLogf("error :: %s\n", e.msg);
     }
 }
+

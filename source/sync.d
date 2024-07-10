@@ -12,7 +12,13 @@ import common;
  +/
 void dsyncTarget(in string src, in string dst, in bool verbose)
 {
-    return;
+    if (verbose) dsyncLog("Starting syncronization process...");
+
+    // list directories
+    src_dirs = listdir(src);
+    dst_dirs = listdir(dst);
+
+    if (verbose) dsyncLog("All files up-to-date!");
 }
 
 /++ 
@@ -35,6 +41,17 @@ void dsyncDual(in string src, in string dst, in bool verbose)
  +   verbose = verbose output
  +/
 void dsyncFull(in string src, in string dst, in bool verbose)
+{
+    return;
+}
+
+/++ 
+ + Create directory tree 
+ + Params:
+ +   src = source directory where the dir tree is copied from
+ +   dst = destination directory where the dir tree is created based in source
+ +/
+void dsyncCreateDirectoryTree(in string src, in string dst)
 {
     return;
 }

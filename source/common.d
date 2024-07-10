@@ -1,6 +1,9 @@
 module common;
 
+// std
 import std.stdio : write, writef;
+import std.array : array;
+import std.file : dirEntries, SpanMode, DirEntry;
 
 // definitions
 enum PROJECT_NAME = "dsync";
@@ -30,7 +33,7 @@ enum DSyncMethod
 }
 
 /++ 
- + Custom log function (appends new line at the end by default)
+ + Python-like print log function
  + Params:
  +   args = arguments
  +/
@@ -42,7 +45,7 @@ void dsyncLog(string sep = " ", string end = "\n", string header = PROJECT_NAME,
 }
 
 /++ 
- + Custom log function with formatter
+ + C printf-like log function
  + Params:
  +   format = formatted output
  +   args = arguments
@@ -57,13 +60,11 @@ void dsyncLogf(string header = PROJECT_NAME, Args...)(in string format, Args arg
  + List all files found in a directory
  + Params:
  +   dir = directory to inspect
+ +   mode = inspection span mode
  + Returns: an array of file names with absolute path
  +/
-// string[] listdir(in string dir) 
-// {
-//     return dirEntries(dir, SpanMode.shallow)
-//         .filter!(a => a.isFile)
-//         .map!(a => baseName(a.name))
-//         .array;
-// }
+DirEntry[] listdir(in string dir, in SpanMode mode = SpanMode.depth) 
+{
+    return dirEntries(dir, mode).array;
+}
 
