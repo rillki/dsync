@@ -8,7 +8,7 @@ import std.algorithm : map;
 
 // definitions
 enum PROJECT_NAME = "dsync";
-enum PROJECT_VERSION = "1.0.0";
+enum PROJECT_VERSION = "1.0.2";
 enum PROJECT_HELP_HEADER = 
     PROJECT_NAME ~ " version v" ~ PROJECT_VERSION ~ 
     " -- syncing files accross directories and devices.";

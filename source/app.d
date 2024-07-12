@@ -54,6 +54,7 @@ void main(string[] args)
         }
 
         // synchronize
+        if (opt_verbose) dsyncLog("Starting syncronization process...");
         with (DSyncMethod)
         final switch (opt_sync_method)
         {
@@ -61,9 +62,12 @@ void main(string[] args)
                 dsyncTarget(opt_src, opt_dst, opt_verbose);
                 break;
             case dual:
+                dsyncDual(opt_src, opt_dst, opt_verbose);
+                break;
             case full:
                 dsyncLog("unimplemented!");
         }
+        if (opt_verbose) dsyncLog("All files up-to-date!");
     }
     catch (Exception e) 
     {

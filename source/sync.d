@@ -20,8 +20,6 @@ import common;
  +/
 void dsyncTarget(in string src, in string dst, in bool verbose)
 {
-    if (verbose) dsyncLog("Starting syncronization process...");
-
     // create directory tree for dst
     dsyncCreateDirectoryTree(src, dst, verbose);
 
@@ -33,8 +31,6 @@ void dsyncTarget(in string src, in string dst, in bool verbose)
 
     // remove directory tree from dst if absent from src
     dsyncRemoveDirectoryTree(src, dst, verbose);
-
-    if (verbose) dsyncLog("All files up-to-date!");
 }
 
 /++ 
@@ -46,7 +42,17 @@ void dsyncTarget(in string src, in string dst, in bool verbose)
  +/
 void dsyncDual(in string src, in string dst, in bool verbose)
 {
-    return;
+    // create directory tree for dst
+    dsyncCreateDirectoryTree(src, dst, verbose);
+
+    // copy or update files from src to dst
+    dsyncCopyUpdateFiles(src, dst, verbose);
+
+    // create directory tree for src
+    dsyncCreateDirectoryTree(dst, src, verbose);
+
+    // copy or update files from dst to src
+    dsyncCopyUpdateFiles(dst, src, verbose);
 }
 
 /++ 
