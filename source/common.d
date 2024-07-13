@@ -16,6 +16,7 @@ enum PROJECT_HELP_FOOTER = `OPTIONS:
     --method=target  ensure the destination folder is a strict copy of the source specified
     --method=dual    synchronize both targets, but do not remove files automatically
     --method=full    synchronize both targets completely
+    --method=net     synchronize both targets over the network in full mode
 EXAMPLE:
     dsync --src ~/disk1 --dst ~/disk2 --method target --verbose
 `;
@@ -31,6 +32,9 @@ enum DSyncMethod
 
     /// synchronize both targets completely (fully automatic)
     full,
+
+    /// synchronize both targets over the network in full mode 
+    net,
 }
 
 /++ 

@@ -65,6 +65,7 @@ void main(string[] args)
                 dsyncDual(opt_src, opt_dst, opt_verbose);
                 break;
             case full:
+            case net:
                 dsyncLog("unimplemented!");
         }
         if (opt_verbose) dsyncLog("All files up-to-date!");

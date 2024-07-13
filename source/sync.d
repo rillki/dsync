@@ -68,6 +68,18 @@ void dsyncFull(in string src, in string dst, in bool verbose)
 }
 
 /++ 
+ + Synchronize both targets over the network in full mode
+ + Params:
+ +   src = source directory
+ +   dst = destination directory
+ +   verbose = verbose output
+ +/
+void dsyncNet(in string src, in string dst, in bool verbose)
+{
+    return;
+}
+
+/++ 
  + Create directory tree 
  + Params:
  +   src = source directory where the dir tree is copied from
