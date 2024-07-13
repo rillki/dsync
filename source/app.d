@@ -20,6 +20,7 @@ void main(string[] args)
     string opt_src;
     string opt_dst;
     bool opt_verbose = false;
+    bool opt_ignore_df = false;
     auto opt_sync_method = DSyncMethod.target;
 
     // parse arguments
@@ -30,6 +31,7 @@ void main(string[] args)
             config.required, "src|s", "source directory", &opt_src,
             config.required, "dst|d", "destination directory", &opt_dst,
             "method|m", "sync method", &opt_sync_method,
+            "ignore_df|i", "ignore dot files", &opt_ignore_df,
             "verbose|v", "verbose output", &opt_verbose,
         );
 
@@ -59,10 +61,10 @@ void main(string[] args)
         final switch (opt_sync_method)
         {
             case target:
-                dsyncTarget(opt_src, opt_dst, opt_verbose);
+                dsyncTarget(opt_src, opt_dst, opt_ignore_df, opt_verbose);
                 break;
             case dual:
-                dsyncDual(opt_src, opt_dst, opt_verbose);
+                dsyncDual(opt_src, opt_dst, opt_ignore_df, opt_verbose);
                 break;
             case full:
             case net:

@@ -2,13 +2,14 @@ module common;
 
 // std
 import std.file : dirEntries, SpanMode, DirEntry;
+import std.path : baseName;
 import std.array : array;
 import std.stdio : write, writef;
-import std.algorithm : map;
+import std.algorithm : map, filter, startsWith;
 
 // definitions
 enum PROJECT_NAME = "dsync";
-enum PROJECT_VERSION = "1.0.2";
+enum PROJECT_VERSION = "1.0.3";
 enum PROJECT_HELP_HEADER = 
     PROJECT_NAME ~ " version v" ~ PROJECT_VERSION ~ 
     " -- syncing files accross directories and devices.";
@@ -65,11 +66,14 @@ void dsyncLogf(string header = PROJECT_NAME, Args...)(in string format, Args arg
  + List all files found in a directory
  + Params:
  +   dir = directory to inspect
+ +   ignoreDotFiles = exclude dot files
  +   mode = inspection span mode
  + Returns: an array of file names with absolute path
  +/
-string[] listdir(in string dir, in SpanMode mode = SpanMode.depth) 
+string[] listdir(in string dir, in bool ignoreDotFiles = false, in SpanMode mode = SpanMode.depth) 
 {
-    return dirEntries(dir, mode).map!(a => a.name).array;
+    return ignoreDotFiles 
+        ? dirEntries(dir, mode).filter!(a => !baseName(a.name).startsWith(".")).map!(a => a.name).array
+        : dirEntries(dir, mode).map!(a => a.name).array;
 }
 

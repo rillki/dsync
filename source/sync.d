@@ -16,21 +16,22 @@ import common;
  + Params:
  +   src = source directory
  +   dst = destination directory
+ +   ignore_df = exclude dot files
  +   verbose = verbose output
  +/
-void dsyncTarget(in string src, in string dst, in bool verbose)
+void dsyncTarget(in string src, in string dst, in bool ignore_df, in bool verbose)
 {
     // create directory tree for dst
-    dsyncCreateDirectoryTree(src, dst, verbose);
+    dsyncCreateDirectoryTree(src, dst, ignore_df, verbose);
 
     // copy or update files from src to dst
-    dsyncCopyUpdateFiles(src, dst, verbose);
+    dsyncCopyUpdateFiles(src, dst, ignore_df, verbose);
 
     // remove files from destination if they are absent in source
-    dsyncRemoveFiles(src, dst, verbose);
+    dsyncRemoveFiles(src, dst, ignore_df, verbose);
 
     // remove directory tree from dst if absent from src
-    dsyncRemoveDirectoryTree(src, dst, verbose);
+    dsyncRemoveDirectoryTree(src, dst, ignore_df, verbose);
 }
 
 /++ 
@@ -38,21 +39,22 @@ void dsyncTarget(in string src, in string dst, in bool verbose)
  + Params:
  +   src = source directory
  +   dst = destination directory
+ +   ignore_df = exclude dot files
  +   verbose = verbose output
  +/
-void dsyncDual(in string src, in string dst, in bool verbose)
+void dsyncDual(in string src, in string dst, in bool ignore_df, in bool verbose)
 {
     // create directory tree for dst
-    dsyncCreateDirectoryTree(src, dst, verbose);
+    dsyncCreateDirectoryTree(src, dst, ignore_df, verbose);
 
     // copy or update files from src to dst
-    dsyncCopyUpdateFiles(src, dst, verbose);
+    dsyncCopyUpdateFiles(src, dst, ignore_df, verbose);
 
     // create directory tree for src
-    dsyncCreateDirectoryTree(dst, src, verbose);
+    dsyncCreateDirectoryTree(dst, src, ignore_df, verbose);
 
     // copy or update files from dst to src
-    dsyncCopyUpdateFiles(dst, src, verbose);
+    dsyncCopyUpdateFiles(dst, src, ignore_df, verbose);
 }
 
 /++ 
@@ -60,9 +62,10 @@ void dsyncDual(in string src, in string dst, in bool verbose)
  + Params:
  +   src = source directory
  +   dst = destination directory
+ +   ignore_df = exclude dot files
  +   verbose = verbose output
  +/
-void dsyncFull(in string src, in string dst, in bool verbose)
+void dsyncFull(in string src, in string dst, in bool ignore_df, in bool verbose)
 {
     return;
 }
@@ -72,9 +75,10 @@ void dsyncFull(in string src, in string dst, in bool verbose)
  + Params:
  +   src = source directory
  +   dst = destination directory
+ +   ignore_df = exclude dot files
  +   verbose = verbose output
  +/
-void dsyncNet(in string src, in string dst, in bool verbose)
+void dsyncNet(in string src, in string dst, in bool ignore_df, in bool verbose)
 {
     return;
 }
@@ -84,13 +88,14 @@ void dsyncNet(in string src, in string dst, in bool verbose)
  + Params:
  +   src = source directory where the dir tree is copied from
  +   dst = destination directory where the dir tree is created based on source
+ +   ignore_df = exclude dot files
  +   verbose = verbose output
  +/
-void dsyncCreateDirectoryTree(in string src, in string dst, in bool verbose = false)
+void dsyncCreateDirectoryTree(in string src, in string dst, in bool ignore_df, in bool verbose = false)
 {
     // list directories
-    auto src_dirs = listdir(src).filter!(a => a.isDir).array;
-    auto dst_dirs = listdir(dst).filter!(a => a.isDir).array;
+    auto src_dirs = listdir(src, ignore_df).filter!(a => a.isDir).array;
+    auto dst_dirs = listdir(dst, ignore_df).filter!(a => a.isDir).array;
 
     // iterate over src directory and create dirtree in destination
     foreach (src_dir; src_dirs)
@@ -109,13 +114,14 @@ void dsyncCreateDirectoryTree(in string src, in string dst, in bool verbose = fa
  + Params:
  +   src = source directory where the dir tree is copied from
  +   dst = destination directory where the dir tree is created based on source
+ +   ignore_df = exclude dot files
  +   verbose = verbose output
  +/
-void dsyncRemoveDirectoryTree(in string src, in string dst, in bool verbose = false)
+void dsyncRemoveDirectoryTree(in string src, in string dst, in bool ignore_df, in bool verbose = false)
 {
     // list directories
-    auto src_dirs = listdir(src).filter!(a => a.isDir).array;
-    auto dst_dirs = listdir(dst).filter!(a => a.isDir).array;
+    auto src_dirs = listdir(src, ignore_df).filter!(a => a.isDir).array;
+    auto dst_dirs = listdir(dst, ignore_df).filter!(a => a.isDir).array;
 
     // iterate over dst directory and delete dirtree in source
     foreach (dst_dir; dst_dirs)
@@ -134,13 +140,14 @@ void dsyncRemoveDirectoryTree(in string src, in string dst, in bool verbose = fa
  + Params:
  +   src = source directory where files are taken from
  +   dst = destination directory where files are copied to
+ +   ignore_df = exclude dot files
  +   verbose = verbose output
  +/
-void dsyncCopyUpdateFiles(in string src, in string dst, in bool verbose = false)
+void dsyncCopyUpdateFiles(in string src, in string dst, in bool ignore_df, in bool verbose = false)
 {
     // find all files
-    auto src_files = listdir(src).filter!(a => a.isFile).array;
-    auto dst_files = listdir(dst).filter!(a => a.isFile).array;
+    auto src_files = listdir(src, ignore_df).filter!(a => a.isFile).array;
+    auto dst_files = listdir(dst, ignore_df).filter!(a => a.isFile).array;
 
     // iterate over src directory and copy/update files to destination
     foreach (src_file; src_files)
@@ -180,13 +187,14 @@ void dsyncCopyUpdateFiles(in string src, in string dst, in bool verbose = false)
  + Params:
  +   src = source directory where files are taken from
  +   dst = destination directory where files are copied to
+ +   ignore_df = exclude dot files
  +   verbose = verbose output
  +/
-void dsyncRemoveFiles(in string src, in string dst, in bool verbose = false)
+void dsyncRemoveFiles(in string src, in string dst, in bool ignore_df, in bool verbose = false)
 {
     // find all files
-    auto src_files = listdir(src).filter!(a => a.isFile).array;
-    auto dst_files = listdir(dst).filter!(a => a.isFile).array;
+    auto src_files = listdir(src, ignore_df).filter!(a => a.isFile).array;
+    auto dst_files = listdir(dst, ignore_df).filter!(a => a.isFile).array;
 
     // iterate over src directory and remove files from destination if they are absent in source
     foreach (dst_file; dst_files)
