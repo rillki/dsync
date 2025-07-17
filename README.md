@@ -3,22 +3,7 @@
 Syncing files accross directories and devices.
 
 ## Usage
-```
-dsync version v1.0.3 -- syncing files accross directories and devices.
--s       --src Required: source directory
--d       --dst Required: destination directory
--m    --method           sync method
--i --ignore_df           ignore dot files
--v   --verbose           verbose output
--h      --help           This help information.
-OPTIONS:
-    --method=target  ensure the destination folder is a strict copy of the source specified
-    --method=dual    synchronize both targets, but do not remove files automatically
-    --method=full    synchronize both targets completely
-    --method=net     synchronize both targets over the network in full mode
-EXAMPLE:
-    dsync --src ~/disk1 --dst ~/disk2 --method target --verbose
-```
+WIP.
 
 ## Build
 ```
