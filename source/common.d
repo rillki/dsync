@@ -1,79 +1,45 @@
 module common;
 
-// std
-import std.file : dirEntries, SpanMode, DirEntry;
-import std.path : baseName;
-import std.array : array;
-import std.stdio : write, writef;
-import std.algorithm : map, filter, startsWith;
+/*
+ * Common functionality and configurations shared thoughout the project. 
+ */
 
-// definitions
-enum PROJECT_NAME = "dsync";
-enum PROJECT_VERSION = "1.0.3";
-enum PROJECT_HELP_HEADER = 
-    PROJECT_NAME ~ " version v" ~ PROJECT_VERSION ~ 
-    " -- syncing files accross directories and devices.";
-enum PROJECT_HELP_FOOTER = `OPTIONS:
-    --method=target  ensure the destination folder is a strict copy of the source specified
-    --method=dual    synchronize both targets, but do not remove files automatically
-    --method=full    synchronize both targets completely
-    --method=net     synchronize both targets over the network in full mode
-EXAMPLE:
-    dsync --src ~/disk1 --dst ~/disk2 --method target --verbose
-`;
+import asol;
 
-/// syncronization method
-enum DSyncMethod
+/// project infomation
+enum 
 {
-    /// ensure the destination folder is a strict copy of the source specified  
+    projectName = "dsync",
+    projectVersion = "1.0.3",
+    projectHelpHeader = 
+        projectName ~ " version v" ~ projectVersion ~ 
+        " -- syncing files accross directories and devices.",
+    projectHelpFooter = `OPTIONS:
+    --method=target Make the destination folder exactly like the source.
+                    Extra files in the destination will be deleted.
+    --method=dual   Keep both folders in sync. New and changed files are copied both ways.
+                    No files are deleted.
+EXAMPLE:
+    dsync --src ~/disk1 --dst ~/disk2 --method=target --verbose
+`,
+    projectLogHeader = projectName ~ " :: "
+}
+
+/// Syncronization method
+enum SyncronizationMethod
+{
+    /// Make the destination folder exactly like the source.
+    /// Extra files in the destination will be deleted.
     target,
 
-    /// synchronize both targets, but do not remove files automatically
+    /// Keep both folders in sync. New and changed files are copied both ways.
+    /// No files are deleted.
     dual,
-
-    /// synchronize both targets completely (fully automatic)
-    full,
-
-    /// synchronize both targets over the network in full mode 
-    net,
 }
 
-/++ 
- + Python-like print log function
- + Params:
- +   args = arguments
- +/
-void dsyncLog(string sep = " ", string end = "\n", string header = PROJECT_NAME, Args...)(Args args) 
-{
-    write("#", header, " :: ");
-    foreach (i, arg; args) write(arg, i < args.length ? sep: "");
-    write(end);
-}
+/// Simple logging function + new line. 
+auto log(Args...)(Args args) => logPrint!(" ", "\n", projectLogHeader)(args);
 
-/++ 
- + C printf-like log function
- + Params:
- +   format = formatted output
- +   args = arguments
- +/
-void dsyncLogf(string header = PROJECT_NAME, Args...)(in string format, Args args) 
-{
-    if (header) write("#", header, " :: ");
-    writef(format, args);
-}
-
-/++ 
- + List all files found in a directory
- + Params:
- +   dir = directory to inspect
- +   ignoreDotFiles = exclude dot files
- +   mode = inspection span mode
- + Returns: an array of file names with absolute path
- +/
-string[] listdir(in string dir, in bool ignoreDotFiles = false, in SpanMode mode = SpanMode.depth) 
-{
-    return ignoreDotFiles 
-        ? dirEntries(dir, mode).filter!(a => !baseName(a.name).startsWith(".")).map!(a => a.name).array
-        : dirEntries(dir, mode).map!(a => a.name).array;
-}
+/// C printf-like function.
+auto logf(Args...)(in string format, Args args) => logPrintf!(projectLogHeader)(format, args);
 

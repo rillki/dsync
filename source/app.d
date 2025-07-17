@@ -1,80 +1,68 @@
 module app;
 
-// std
 import std.file : exists;
+import std.stdio : writef;
 import std.getopt : getopt, defaultGetoptPrinter, config;
-
-// dsync
 import common;
-import sync;
 
 void main(string[] args)
 {
     if (args.length < 2) 
     {
-        dsyncLog("incorrect or no commands specified! See '-h' for more information.");
+        log("Incorrect or no commands specified! See '-h' for more information.");
         return;
     }
 
-    // define options
-    string opt_src;
-    string opt_dst;
-    bool opt_verbose = false;
-    bool opt_ignore_df = false;
-    auto opt_sync_method = DSyncMethod.target;
-
-    // parse arguments
+    // define command line agruments
+    string src, dst;
+    bool verbose = false, ignore_df = false;
+    auto method = SyncronizationMethod.target;
+    
+    // parse command line arguemnts
     try
     {
         auto argInfo = getopt(
             args,
-            config.required, "src|s", "source directory", &opt_src,
-            config.required, "dst|d", "destination directory", &opt_dst,
-            "method|m", "sync method", &opt_sync_method,
-            "ignore_df|i", "ignore dot files", &opt_ignore_df,
-            "verbose|v", "verbose output", &opt_verbose,
+            config.required, "src|s", "Source directory.", &src,
+            config.required, "dst|d", "Destination directory.", &dst,
+            "method|m", "Syncronization method.", &method,
+            "ignore_df|i", "Ignore dot files.", &ignore_df,
+            "verbose|v", "Verbose output.", &verbose,
         );
 
-        // display help manual
-        if (argInfo.helpWanted) 
+        // display help
+        if (argInfo.helpWanted)
         {
-            defaultGetoptPrinter(PROJECT_HELP_HEADER, argInfo.options);
-            dsyncLogf!null(PROJECT_HELP_FOOTER);
+            defaultGetoptPrinter(projectHelpHeader, argInfo.options);
+            writef("%s", projectHelpFooter);
             return;
         }
-
-        // validate options
-        if (!exists(opt_src))
-        {
-            dsyncLogf("Source directory <%s> does not exist!\n", opt_src);
-            return;
-        }
-        if (!exists(opt_dst))
-        {
-            dsyncLogf("Destination directory <%s> does not exist!\n", opt_dst);
-            return;
-        }
-
-        // synchronize
-        if (opt_verbose) dsyncLog("Starting syncronization process...");
-        with (DSyncMethod)
-        final switch (opt_sync_method)
-        {
-            case target:
-                dsyncTarget(opt_src, opt_dst, opt_ignore_df, opt_verbose);
-                break;
-            case dual:
-                dsyncDual(opt_src, opt_dst, opt_ignore_df, opt_verbose);
-                break;
-            case full:
-            case net:
-                dsyncLog("unimplemented!");
-        }
-        if (opt_verbose) dsyncLog("All files up-to-date!");
     }
-    catch (Exception e) 
+    catch (Exception e)
     {
-        dsyncLogf("error :: %s\n", e.msg);
+        log("Error:", e.msg);
     }
-}
 
+    // check if paths exist
+    foreach (dir; [src, dst]) if (!exists(dir))
+    {
+        log("Directory does not exist:", dir);
+        return;
+    }
+
+    if (verbose)
+    {
+        log("Syncronizing:");
+        log(src);
+        log(method == SyncronizationMethod.target ? "↓" : "↕");
+        log(dst);
+    }
+
+    // choose syncronization method
+    with (SyncronizationMethod) final switch (method)
+    {
+        case target:
+        case dual:
+    }
+    if (verbose) log("All files are up-to-date!");
+}
