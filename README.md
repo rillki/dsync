@@ -1,5 +1,5 @@
 <img src="imgs/logo.png" width="64" height="64" align="left"></img>
-# Disk synchronization tool
+# Disk synchronization tool 
 Syncing files accross directories and devices.
 
 ## Usage
