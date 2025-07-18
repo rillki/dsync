@@ -18,7 +18,8 @@ void main(string[] args)
 
     // define command line agruments
     string src, dst;
-    bool verbose = false, ignore_df = false;
+    ubyte verbose = 1;
+    bool ignore_df = false;
     auto method = SyncronizationMethod.target;
     
     // parse command line arguemnts
@@ -28,9 +29,9 @@ void main(string[] args)
             args,
             config.required, "src|s", "Source directory.", &src,
             config.required, "dst|d", "Destination directory.", &dst,
-            "method|m", "Syncronization method.", &method,
-            "ignore_df|i", "Ignore dot files.", &ignore_df,
-            "verbose|v", "Verbose output.", &verbose,
+            "method|m", "Syncronization method. (default: target)", &method,
+            "ignore_df|i", "Ignore dot files. (default: false)", &ignore_df,
+            "verbose|v", "Verbose level [0 - off, 1 - brief, 2 - detailed]. (default: 1)", &verbose,
         );
 
         // display help
@@ -65,9 +66,9 @@ void main(string[] args)
     with (SyncronizationMethod) final switch (method)
     {
         case target:
-            TargetSync(src, dst, ignore_df, verbose).syncronize();
+            TargetSync(src, dst, verbose, ignore_df).syncronize();
             break;
-            DualSync(src, dst, ignore_df, verbose).syncronize();
+            DualSync(src, dst, verbose, ignore_df).syncronize();
         case dual:
     }
     if (verbose) log("All files are up-to-date!");

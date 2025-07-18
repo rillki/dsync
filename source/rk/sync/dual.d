@@ -6,22 +6,23 @@ import rk.sync.target : TargetSync;
 struct DualSync
 {
     string src, dst;
-    bool ignore_df = false, verbose = false;
+    ubyte verbose = 0;
+    bool ignore_df = false;
     private immutable strictCopy = false;
 
     /// Define and configure syncronization targets.
-    this(in string src, in string dst, in bool ignore_df, in bool verbose)
+    this(in string src, in string dst, in ubyte verbose, in bool ignore_df)
     {
         this.src = src;
         this.dst = dst;
-        this.ignore_df = ignore_df;
         this.verbose = verbose;
+        this.ignore_df = ignore_df;
     }
 
     /// Syncronize the destination directory with the source.
     void syncronize() 
     {
-        TargetSync(src, dst, ignore_df, verbose, this.strictCopy).syncronize();
-        TargetSync(dst, src, ignore_df, verbose, this.strictCopy).syncronize();
+        TargetSync(src, dst, verbose, ignore_df, strictCopy).syncronize();
+        TargetSync(dst, src, verbose, ignore_df, strictCopy).syncronize();
     }
 }
