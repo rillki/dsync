@@ -1,6 +1,6 @@
 module rk.sync.target;
 
-import rk.core.common;
+import rk.core.common : log;
 
 /// Target syncronization mode.
 struct TargetSync
