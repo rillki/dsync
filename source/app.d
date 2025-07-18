@@ -5,7 +5,8 @@ import std.stdio : writef;
 import std.getopt : getopt, defaultGetoptPrinter, config;
 
 import rk.core.common;
-import rk.sync.target;
+import rk.sync.target : TargetSync;
+import rk.sync.dual : DualSync;
 
 void main(string[] args)
 {
@@ -64,6 +65,9 @@ void main(string[] args)
     with (SyncronizationMethod) final switch (method)
     {
         case target:
+            TargetSync(src, dst, ignore_df, verbose).syncronize();
+            break;
+            DualSync(src, dst, ignore_df, verbose).syncronize();
         case dual:
     }
     if (verbose) log("All files are up-to-date!");
