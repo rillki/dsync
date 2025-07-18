@@ -1,10 +1,10 @@
-module common;
+module rk.core.common;
 
 /*
  * Common functionality and configurations shared thoughout the project. 
  */
 
-import asol;
+import rk.core.asol;
 
 /// project infomation
 enum 

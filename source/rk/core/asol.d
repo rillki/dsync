@@ -1,4 +1,4 @@
-module asol;
+module rk.core.asol;
 
 /*
  * Asol - simple auxiliary lib for my D projects.

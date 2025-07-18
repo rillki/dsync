@@ -3,7 +3,9 @@ module app;
 import std.file : exists;
 import std.stdio : writef;
 import std.getopt : getopt, defaultGetoptPrinter, config;
-import common;
+
+import rk.core.common;
+import rk.sync.target;
 
 void main(string[] args)
 {
