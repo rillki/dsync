@@ -8,7 +8,8 @@ struct DualSync
     string src, dst;
     bool ignore_df = false, verbose = false;
     private immutable strictCopy = false;
-    
+
+    /// Define and configure syncronization targets.
     this(in string src, in string dst, in bool ignore_df, in bool verbose)
     {
         this.src = src;
