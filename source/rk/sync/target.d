@@ -1,6 +1,7 @@
 module rk.sync.target;
 
-import std.file : isDir, isFile, exists, mkdirRecurse, copy, remove, getTimes;
+import std.file : isDir, isFile, exists, mkdirRecurse, rmdirRecurse, copy, remove, getTimes;
+import std.path : absolutePath;
 import std.array : array;
 import std.string : replace;
 import std.datetime : SysTime;
@@ -19,6 +20,10 @@ struct TargetSync
     /// Syncronize the destination directory with the source.
     void syncronize() 
     {
+        // get absolute path
+        src = absolutePath(src);
+        dst = absolutePath(dst);
+
         if (verbose) log("Syncronizing directory tree...");
         createDirectoryTree();
 
@@ -67,7 +72,7 @@ struct TargetSync
             if (!exists(srcDir))
             {
                 if (verbose > 1) log("\t[  rmdir ]", dir);
-                mkdirRecurse(dir);
+                rmdirRecurse(dir);
             }
         }
     }

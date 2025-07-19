@@ -68,8 +68,9 @@ void main(string[] args)
         case target:
             TargetSync(src, dst, verbose, ignore_df).syncronize();
             break;
-            DualSync(src, dst, verbose, ignore_df).syncronize();
         case dual:
+            DualSync(src, dst, verbose, ignore_df).syncronize();
+            break;
     }
     if (verbose) log("All files are up-to-date!");
 }
