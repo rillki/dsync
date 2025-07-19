@@ -10,7 +10,7 @@ import rk.core.asol;
 enum 
 {
     projectName = "dsync",
-    projectVersion = "1.0.3",
+    projectVersion = "1.1.0",
     projectHelpHeader = 
         projectName ~ " version v" ~ projectVersion ~ 
         " -- syncing files accross directories and devices.",
