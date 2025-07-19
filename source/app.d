@@ -20,7 +20,7 @@ void main(string[] args)
     string src, dst;
     ubyte verbose = 1;
     bool ignore_df = false;
-    auto method = SyncronizationMethod.target;
+    auto method = SynchronizationMethod.target;
     
     // parse command line arguemnts
     try
@@ -29,7 +29,7 @@ void main(string[] args)
             args,
             config.required, "src|s", "Source directory.", &src,
             config.required, "dst|d", "Destination directory.", &dst,
-            "method|m", "Syncronization method. (default: target)", &method,
+            "method|m", "Synchronization method. (default: target)", &method,
             "ignore_df|i", "Ignore dot files. (default: false)", &ignore_df,
             "verbose|v", "Verbose level [0 - off, 1 - brief, 2 - detailed]. (default: 1)", &verbose,
         );
@@ -56,20 +56,20 @@ void main(string[] args)
 
     if (verbose)
     {
-        log("Syncronizing:");
+        log("Synchronizing:");
         log(src);
-        log(method == SyncronizationMethod.target ? "↓" : "↕");
+        log(method == SynchronizationMethod.target ? "↓" : "↕");
         log(dst);
     }
 
-    // choose syncronization method
-    with (SyncronizationMethod) final switch (method)
+    // choose synchronization method
+    with (SynchronizationMethod) final switch (method)
     {
         case target:
-            TargetSync(src, dst, verbose, ignore_df).syncronize();
+            TargetSync(src, dst, verbose, ignore_df).synchronize();
             break;
         case dual:
-            DualSync(src, dst, verbose, ignore_df).syncronize();
+            DualSync(src, dst, verbose, ignore_df).synchronize();
             break;
     }
     if (verbose) log("All files are up-to-date!");

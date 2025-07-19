@@ -7,7 +7,7 @@ Syncing files accross directories and devices.
 dsync version v1.1.0 -- syncing files accross directories and devices.
 -s       --src Required: Source directory.
 -d       --dst Required: Destination directory.
--m    --method           Syncronization method. (default: target)
+-m    --method           Synchronization method. (default: target)
 -i --ignore_df           Ignore dot files. (default: false)
 -v   --verbose           Verbose level [0 - off, 1 - brief, 2 - detailed]. (default: 1)
 -h      --help           This help information.

@@ -25,8 +25,8 @@ EXAMPLE:
     projectLogHeader = projectName ~ " :: "
 }
 
-/// Syncronization method
-enum SyncronizationMethod
+/// Synchronization method
+enum SynchronizationMethod
 {
     /// Make the destination folder exactly like the source.
     /// Extra files in the destination will be deleted.

@@ -10,21 +10,21 @@ import std.algorithm : filter;
 import rk.core.asol : listdir;
 import rk.core.common : log;
 
-/// Target syncronization mode.
+/// Target synchronization mode.
 struct TargetSync
 {
     string src, dst;
     ubyte verbose = 0;
     bool ignore_df = false, strictCopy = true;
 
-    /// Syncronize the destination directory with the source.
-    void syncronize() 
+    /// Synchronize the destination directory with the source.
+    void synchronize() 
     {
         // get absolute path
         src = absolutePath(src);
         dst = absolutePath(dst);
 
-        if (verbose) log("Syncronizing directory tree...");
+        if (verbose) log("Synchronizing directory tree...");
         createDirectoryTree();
 
         if (verbose) log("Copying and updating files...");
