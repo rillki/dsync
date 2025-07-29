@@ -22,7 +22,7 @@ enum
     --method=dual   Keep both folders in sync. New and changed files are copied both ways.
                     No files are deleted.
 EXAMPLE:
-    dsync --src ~/disk1 --dst ~/disk2 --method=target --verbose 2
+    dsync --src ~/disk1 --dst ~/disk2 --method=update --verbose 2
 `,
     projectLogHeader = projectName ~ " :: "
 }
