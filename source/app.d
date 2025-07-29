@@ -20,7 +20,7 @@ void main(string[] args)
     string src, dst;
     ubyte verbose = 1;
     bool ignore_df = false;
-    auto method = SynchronizationMethod.target;
+    auto method = SynchronizationMethod.update;
     
     // parse command line arguemnts
     try
@@ -29,7 +29,7 @@ void main(string[] args)
             args,
             config.required, "src|s", "Source directory.", &src,
             config.required, "dst|d", "Destination directory.", &dst,
-            "method|m", "Synchronization method. (default: target)", &method,
+            "method|m", "Synchronization method. (default: update)", &method,
             "ignore_df|i", "Ignore dot files. (default: false)", &ignore_df,
             "verbose|v", "Verbose level [0 - off, 1 - brief, 2 - detailed]. (default: 1)", &verbose,
         );
@@ -67,6 +67,9 @@ void main(string[] args)
     {
         case target:
             TargetSync(src, dst, verbose, ignore_df).synchronize();
+            break;
+        case update:
+            TargetSync(src, dst, verbose, ignore_df, false).synchronize();
             break;
         case dual:
             DualSync(src, dst, verbose, ignore_df).synchronize();

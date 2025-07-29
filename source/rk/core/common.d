@@ -10,13 +10,15 @@ import rk.core.asol;
 enum 
 {
     projectName = "dsync",
-    projectVersion = "1.1.0",
+    projectVersion = "1.2.0",
     projectHelpHeader = 
         projectName ~ " version v" ~ projectVersion ~ 
         " -- syncing files accross directories and devices.",
     projectHelpFooter = `OPTIONS:
     --method=target Make the destination folder exactly like the source.
                     Extra files in the destination will be deleted.
+    --method=update Copy new and update changed files from source to destination.
+                    Does not delete any files from destination.
     --method=dual   Keep both folders in sync. New and changed files are copied both ways.
                     No files are deleted.
 EXAMPLE:
@@ -31,6 +33,10 @@ enum SynchronizationMethod
     /// Make the destination folder exactly like the source.
     /// Extra files in the destination will be deleted.
     target,
+
+    /// Copy new and update changed files from source to destination.
+    /// Does not delete any files from destination.
+    update,
 
     /// Keep both folders in sync. New and changed files are copied both ways.
     /// No files are deleted.
