@@ -45,6 +45,7 @@ void main(string[] args)
     catch (Exception e)
     {
         log("Error:", e.msg);
+        return;
     }
 
     // check if paths exist
