@@ -1,10 +1,18 @@
 module rk.sync.target;
 
-import std.file : isDir, isFile, exists, mkdirRecurse, rmdirRecurse, copy, remove, getTimes;
+import std.file : isDir, 
+                  isFile, 
+                  exists, 
+                  mkdirRecurse, 
+                  rmdirRecurse, 
+                  copy, 
+                  remove, 
+                  timeLastModified, 
+                  PreserveAttributes;
 import std.path : absolutePath;
 import std.array : array;
 import std.string : replace;
-import std.datetime : SysTime;
+import std.datetime : SysTime, dur;
 import std.algorithm : filter;
 
 import rk.core.asol : listdir;
@@ -96,15 +104,14 @@ struct TargetSync
             else // update file if neccessary
             {
                 // get modification time
-                SysTime dummyTime, srcModificationTime, dstModificationTime;
-                file.getTimes(dummyTime, srcModificationTime);
-                dstFile.getTimes(dummyTime, dstModificationTime);
+                SysTime srcModificationTime = file.timeLastModified, 
+                        dstModificationTime = dstFile.timeLastModified;
 
                 // update
-                if (srcModificationTime > dstModificationTime)
+                if (srcModificationTime > dstModificationTime + dur!"seconds"(1))
                 {
                     if (verbose > 1) log("\t[ update ]", dstFile);
-                    file.copy(dstFile);
+                    file.copy(dstFile, PreserveAttributes.yes);
                 }
             }
         }
