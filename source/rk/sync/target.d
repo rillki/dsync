@@ -14,6 +14,7 @@ import std.array : array;
 import std.string : replace;
 import std.datetime : SysTime, dur;
 import std.algorithm : filter;
+import std.parallelism : parallel;
 
 import rk.core.asol : listdir;
 import rk.core.common : log;
@@ -91,7 +92,7 @@ struct TargetSync
         auto srcFiles = listdir(src, ignore_df).filter!(a => a.isFile).array;
 
         // iterate over the files in source
-        foreach (file; srcFiles)
+        foreach (file; srcFiles.parallel)
         {
             auto dstFile = file.replace(src, dst);
 
@@ -123,7 +124,7 @@ struct TargetSync
         auto dstFiles = listdir(dst, ignore_df).filter!(a => a.isFile).array;
 
         // iterate over the files in destination
-        foreach (file; dstFiles)
+        foreach (file; dstFiles.parallel)
         {
             auto srcFile = file.replace(dst, src);
 
